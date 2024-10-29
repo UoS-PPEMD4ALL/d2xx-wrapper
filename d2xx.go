@@ -111,6 +111,7 @@ type Handle interface {
 	GetBitMode() (byte, Err)
 	// SetBitMode takes >0.1ms
 	SetBitMode(mask, mode byte) Err
+	GetComPortNumber() (uint8, Err)
 }
 
 var _ Handle = handle(0)

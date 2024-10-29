@@ -229,6 +229,12 @@ func (h handle) SetBitMode(mask, mode byte) Err {
 	return Err(r1)
 }
 
+func (h handle) GetComPortNumber() (uint8, Err) {
+	var port uint8
+	r1, _, _ := pGetComPortNumber.Call(h.toH(), uintptr(unsafe.Pointer(&port)))
+	return port, Err(r1)
+}
+
 func (h handle) toH() uintptr {
 	return uintptr(h)
 }
@@ -263,6 +269,7 @@ var (
 	pSetTimeouts          *syscall.Proc
 	pSetUSBParameters     *syscall.Proc
 	pWrite                *syscall.Proc
+	pGetComPortNumber     *syscall.Proc
 )
 
 func lateInit() {
@@ -301,6 +308,7 @@ func lateInit() {
 		pSetTimeouts = find("FT_SetTimeouts")
 		pSetUSBParameters = find("FT_SetUSBParameters")
 		pWrite = find("FT_Write")
+		pGetComPortNumber = find("FT_GetComPortNumber")
 	}
 }
 

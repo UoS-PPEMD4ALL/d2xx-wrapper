@@ -155,6 +155,11 @@ func (f *Fake) SetBitMode(mask, mode byte) d2xx.Err {
 	return 0
 }
 
+// GetComPortNumber implements d2xx.Handle.
+func (f *Fake) GetComPortNumber() (uint8, d2xx.Err) {
+	return 0, 0
+}
+
 // Log adds logging to a d2xx.Handle to help diagnose issues with the d2xx
 // driver.
 type Log struct {
@@ -294,6 +299,14 @@ func (l *Log) SetBitMode(mask, mode byte) d2xx.Err {
 	e := l.H.SetBitMode(mask, mode)
 	f(mask, mode, e)
 	return e
+}
+
+// GetComPortNumber implements d2xx.Handle.
+func (l *Log) GetComPortNumber() (uint8, d2xx.Err) {
+	f := l.logDefer("GetComPortNumber() = %d")
+	p, e := l.H.GetComPortNumber()
+	f(p)
+	return p, e
 }
 
 func (l *Log) logDefer(fmt string) func(args ...interface{}) {

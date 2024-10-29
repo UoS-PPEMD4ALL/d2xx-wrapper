@@ -112,3 +112,7 @@ func (h handle) GetBitMode() (byte, Err) {
 func (h handle) SetBitMode(mask, mode byte) Err {
 	return NoCGO
 }
+
+func (h handle) GetComPortNumber() (uint8, Err) {
+	return 0, NoCGO
+}

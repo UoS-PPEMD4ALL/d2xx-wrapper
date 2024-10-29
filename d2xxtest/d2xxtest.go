@@ -160,6 +160,11 @@ func (f *Fake) GetComPortNumber() (uint8, d2xx.Err) {
 	return 0, 0
 }
 
+// Purge implements d2xx.Handle.
+func (f *Fake) Purge(mask uint32) d2xx.Err {
+	return 0
+}
+
 // Log adds logging to a d2xx.Handle to help diagnose issues with the d2xx
 // driver.
 type Log struct {
@@ -307,6 +312,14 @@ func (l *Log) GetComPortNumber() (uint8, d2xx.Err) {
 	p, e := l.H.GetComPortNumber()
 	f(p)
 	return p, e
+}
+
+// Purge implements d2xx.Handle.
+func (l *Log) Purge(mask uint32) d2xx.Err {
+	f := l.logDefer("Purge(0x%08X) = %d")
+	e := l.H.Purge(mask)
+	f(mask, e)
+	return e
 }
 
 func (l *Log) logDefer(fmt string) func(args ...interface{}) {

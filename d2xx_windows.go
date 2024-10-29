@@ -235,6 +235,12 @@ func (h handle) GetComPortNumber() (uint8, Err) {
 	return port, Err(r1)
 }
 
+func (h handle) Purge(mask uint32) Err {
+	mask &= 3
+	r1, _, _ := pPurge.Call(h.toH(), uintptr(mask))
+	return Err(r1)
+}
+
 func (h handle) toH() uintptr {
 	return uintptr(h)
 }
@@ -270,6 +276,7 @@ var (
 	pSetUSBParameters     *syscall.Proc
 	pWrite                *syscall.Proc
 	pGetComPortNumber     *syscall.Proc
+	pPurge                *syscall.Proc
 )
 
 func lateInit() {
@@ -309,6 +316,7 @@ func lateInit() {
 		pSetUSBParameters = find("FT_SetUSBParameters")
 		pWrite = find("FT_Write")
 		pGetComPortNumber = find("FT_GetComPortNumber")
+		pPurge = find("FT_Purge")
 	}
 }
 

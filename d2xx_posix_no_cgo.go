@@ -116,3 +116,7 @@ func (h handle) SetBitMode(mask, mode byte) Err {
 func (h handle) GetComPortNumber() (uint8, Err) {
 	return 0, NoCGO
 }
+
+func (h handle) Purge(mask uint32) Err {
+	return NoCGO
+}

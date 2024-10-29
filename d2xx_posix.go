@@ -223,6 +223,12 @@ func (h handle) GetComPortNumber() (uint8, Err) {
 	return uint8(port), Err(r1)
 }
 
+func (h handle) Purge(mask uint32) Err {
+	mask &= 3
+	r1, _, _ := pPurge.Call(h.toH(), uintptr(mask))
+	return Err(r1)
+}
+
 func (h handle) toH() C.FT_HANDLE {
 	return C.FT_HANDLE(h)
 }

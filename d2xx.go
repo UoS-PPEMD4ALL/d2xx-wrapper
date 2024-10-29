@@ -112,6 +112,7 @@ type Handle interface {
 	// SetBitMode takes >0.1ms
 	SetBitMode(mask, mode byte) Err
 	GetComPortNumber() (uint8, Err)
+	Purge(mask uint32) Err
 }
 
 var _ Handle = handle(0)

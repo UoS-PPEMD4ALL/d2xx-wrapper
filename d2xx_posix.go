@@ -218,7 +218,7 @@ func (h handle) SetBitMode(mask, mode byte) Err {
 }
 
 func (h handle) GetComPortNumber() (uint8, Err) {
-	var s C.UCHAR
+	var s C.UINT
 	e := C.FT_GetComPortNumber(h.toH(), &s)
 	return uint8(s), Err(e)
 }

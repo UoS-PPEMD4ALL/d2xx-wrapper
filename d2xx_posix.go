@@ -217,17 +217,15 @@ func (h handle) SetBitMode(mask, mode byte) Err {
 	return Err(C.FT_SetBitMode(h.toH(), C.UCHAR(mask), C.UCHAR(mode)))
 }
 
-// func (h handle) GetComPortNumber() (uint8, Err) {
-// 	var port C.DWORD
-// 	r1, _, _ := pGetComPortNumber.Call(h.toH(), uintptr(port))
-// 	return uint8(port), Err(r1)
-// }
+func (h handle) GetComPortNumber() (uint8, Err) {
+	var s C.UCHAR
+	e := C.FT_GetComPortNumber(h.toH(), &s)
+	return uint8(s), Err(e)
+}
 
-// func (h handle) Purge(mask uint32) Err {
-// 	mask &= 3
-// 	r1, _, _ := pPurge.Call(h.toH(), uintptr(mask))
-// 	return Err(r1)
-// }
+func (h handle) Purge(mask uint32) Err {
+	return Err(C.FT_Purge(h.toH(), C.DWORD(mask)))
+}
 
 func (h handle) toH() C.FT_HANDLE {
 	return C.FT_HANDLE(h)
